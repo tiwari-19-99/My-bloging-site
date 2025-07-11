@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+<div class="mb-8 text-center">
+    <h1 class="text-4xl font-bold font-orbitron text-transparent bg-gradient-to-r from-purple-400 via-red-400 to-violet-500 bg-clip-text mb-4 glow-text">
+        MISSION DASHBOARD
+    </h1>
+    <p class="text-pink-300 text-lg">
+        Navigate through the cosmic knowledge base
+    </p>
+</div>
+
+{% if posts %}
+<div class="flex flex-col w-full max-w-5xl mx-auto px-4">
+    {% for post in posts %}
+    <div class="space-card group relative">
+        <div class="flex items-center mb-2 text-sm text-pink-400 font-semibold font-orbitron">
+            👨‍🚀 {{ post.author.email }} 
+            <span class="mx-2 text-gray-500">•</span> 
+            {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+        <div class="text-lg text-white font-semibold mb-2">{{ post.title }}</div>
+
+        <p class="text-gray-300 mb-4 whitespace-pre-line">{{ post.body|safe }}</p>
+
+        <div class="flex items-center justify-between">
+            <form action="{{ url_for('like_post', post_id=post.id) }}" method="POST">
+                <button type="submit" class="px-4 py-1 text-sm bg-pink-600 hover:bg-pink-700 text-white rounded-md transition duration-200">
+                   {{ post.likes }} 🖤
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-20">
+    <div class="text-8xl mb-6">🛰️</div>
+    <h1 class="text-2xl font-semibold text-yellow-400 font-orbitron mb-4">
+        NO POSTS YET
+    </h1>
+    <p class="text-gray-400">Your dashboard is awaiting transmissions.</p>
+    <a href="{{ url_for('create_post') }}" class="inline-block mt-6 neon-button neon-button-cyan">
+         CREATE NEW POST
+    </a>
+</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-4xl mx-auto mb-12 text-center">
+    <h2
+        class="text-5xl font-bold font-orbitron text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text mb-6 glow-text">
+        SPACE STATION ACCESS
+    </h2>
+    <p class="text-xl text-gray-300 mb-4">Join the cosmic community of interstellar bloggers</p>
+    <div class="w-32 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
+</div>
+
+<form method="POST" class="space-form max-w-lg mx-auto p-8 shadow-2xl mb-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5"></div>
+    <div class="relative z-10">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-6">
+            <label class="block text-cyan-400 font-bold mb-2 font-orbitron text-sm tracking-wider">
+                COSMIC EMAIL ADDRESS
+            </label>
+            {{ form.email(class="space-input w-full px-4 py-3 text-lg", placeholder="astronaut@galaxy.com") }}
+        </div>
+
+        <div class="mb-8">
+            <label class="block text-cyan-400 font-bold mb-2 font-orbitron text-sm tracking-wider">
+                SECURITY PASSKEY
+            </label>
+             <div style="position: relative;">
+        {{ form.password(class="space-input w-full px-4 py-3 text-lg pr-12", placeholder="Enter your cosmic password", id="password-field") }}
+        <button type="button" id="toggle-password" style="position:absolute; top:50%; right:1rem; transform:translateY(-50%); background:none; border:none; cursor:pointer; padding:0;">
+            <span id="eye-icon">👁</span>
+        </button>
+    </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            {{ form.submit_register(class="neon-button neon-button-cyan flex-1 py-3 cursor-pointer", value="REGISTER ")
+            }}
+            {{ form.submit_login(class="neon-button neon-button-purple flex-1 py-3 cursor-pointer", value="LOGIN") }}
+        </div>
+    </div>
+</form>
+
+<div class="mb-8 text-center">
+    <h3
+        class="text-3xl font-bold font-orbitron text-transparent bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text mb-4">
+        PUBLIC TRANSMISSIONS
+    </h3>
+    <p class="text-green-300">Explore messages from across the galaxy</p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for post in posts %}
+    <div class="space-card p-6 group">
+        <div class="flex items-center space-x-2 mb-3">
+            <span class="text-2xl">📻</span>
+            <h2 class="text-xl font-bold text-green-400 group-hover:text-green-300 transition-colors font-orbitron">{{
+                post.title }}</h2>
+        </div>
+
+        <div class="flex items-center space-x-2 mb-3">
+            <span class="text-blue-400">👨‍🚀</span>
+            <p class="text-sm text-blue-300">Transmission from: {{ post.author.email }}</p>
+        </div>
+
+        <div class="bg-black/30 rounded-lg p-4 mb-4 border border-green-500/20">
+            <p class="text-gray-300 leading-relaxed">{{ post.body }}</p>
+        </div>
+
+        <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center space-x-2 text-green-400">
+                <span>📡</span>
+                <span>{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            </div>
+            <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    const passwordField = document.getElementById('password-field');
+    const toggleBtn = document.getElementById('toggle-password');
+    const eyeIcon = document.getElementById('eye-icon');
+    toggleBtn.addEventListener('click', function() {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.textContent = '✖';
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.textContent = '👁';
+        }
+    });
+</script>
+{% endblock %}

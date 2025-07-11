@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-8 text-center">
+    <h1
+        class="text-4xl font-bold font-orbitron text-transparent bg-gradient-to-r from-purple-400 via-red-400 to-violet-500 bg-clip-text mb-4 glow-text">
+        DRAFT TRANSMISSIONS
+    </h1>
+    <p class="text-pink-300 text-lg">Your unfinished cosmic messages</p>
+</div>
+
+{% if posts|length >= 1 %}
+<div class="flex flex-col w-full max-w-5xl mx-auto px-4">
+    {% for post in posts %}
+    <div class="space-card group relative">
+        <div class="flex items-center mb-2 text-sm text-pink-400 font-semibold font-orbitron">
+            👨‍🚀 {{ post.author.email }} <span class="mx-2 text-gray-500">•</span> {{
+            post.created_at.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+
+        <div class="text-lg text-white font-semibold mb-2">{{ post.title }}</div>
+
+        <p class="text-gray-300 mb-4 whitespace-pre-line">{{ post.body | safe}}</p>
+
+        <div class="flex justify-end gap-3 text-sm">
+            <form action="{{ url_for('edit', post_id=post.id) }}" method="GET">
+                <button type="submit" class="neon-button neon-button-cyan">✏️ Edit</button>
+            </form>
+            <form action="{{ url_for('delete', post_id=post.id, page=1) }}" method="POST"
+                onsubmit="return confirm('⚠️ Confirm deletion?');">
+                <button type="submit" class="neon-button neon-button-red">🗑️ Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-20">
+    <div class="text-8xl mb-6">🌌</div>
+    <h1 class="text-2xl font-semibold text-yellow-400 font-orbitron mb-4">NO DRAFT TRANSMISSIONS DETECTED</h1>
+    <p class="text-gray-400">Your creative space is empty. Begin a new cosmic journey!</p>
+    <a href="{{ url_for('create_post') }}" class="inline-block mt-6 neon-button neon-button-cyan">
+         CREATE NEW POST
+    </a>
+</div>
+{% endif %}
+{% endblock %}

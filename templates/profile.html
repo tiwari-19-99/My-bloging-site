@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto mt-12 p-8 bg-gradient-to-br from-cyan-900/60 to-purple-900/60 rounded-xl shadow-2xl">
+    <h2 class="text-4xl font-bold font-orbitron text-cyan-300 mb-6 text-center">👨‍🚀 Astronaut Profile</h2>
+    {% if edit %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+            {{ form.name.label(class="block text-cyan-400 font-bold mb-1") }}
+            {{ form.name(class="w-full p-2 rounded bg-gray-800 text-gray-100") }}
+        </div>
+        <div class="mb-4">
+            {{ form.phone.label(class="block text-cyan-400 font-bold mb-1") }}
+            {{ form.phone(class="w-full p-2 rounded bg-gray-800 text-gray-100") }}
+        </div>
+        <div class="mb-4">
+            {{ form.bio.label(class="block text-cyan-400 font-bold mb-1") }}
+            {{ form.bio(class="w-full p-2 rounded bg-gray-800 text-gray-100") }}
+        </div>
+        <div class="flex justify-center space-x-4">
+            {{ form.submit(class="neon-button neon-button-cyan px-6 py-2") }}
+            <a href="{{ url_for('profile') }}" class="neon-button neon-button-purple px-6 py-2">Cancel</a>
+        </div>
+    </form>
+    {% else %}
+    <div class="mb-4">
+        <span class="block text-cyan-400 font-bold mb-1">Name:</span>
+        <span class="text-lg text-gray-200">{{ current_user.profile.name or "Not set" }}</span>
+    </div>
+    <div class="mb-4">
+        <span class="block text-cyan-400 font-bold mb-1">Phone Number:</span>
+        <span class="text-lg text-gray-200">{{ current_user.profile.phone or "Not set" }}</span>
+    </div>
+    <div class="mb-4">
+        <span class="block text-cyan-400 font-bold mb-1">Email:</span>
+        <span class="text-lg text-gray-200">{{ current_user.email }}</span>
+    </div>
+    <div class="mb-4">
+        <span class="block text-cyan-400 font-bold mb-1">Bio:</span>
+        <span class="text-lg text-gray-200">{{ current_user.profile.bio or "No bio available." }}</span>
+    </div>
+    <div class="mt-8 flex justify-center space-x-4">
+        <a href="{{ url_for('logout') }}" class="neon-button neon-button-purple px-6 py-2">Logout</a>
+        <a href="{{ url_for('edit_profile') }}" class="neon-button neon-button-cyan px-6 py-2">Edit Profile</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
